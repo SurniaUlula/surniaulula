@@ -6,6 +6,7 @@
  * Copyright 2012-2015 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
 
+define( 'WP_DEBUG', false );
 define( 'WP_USE_THEMES', false );
 define( 'WP_PATH', '/var/www/wpadm/wordpress/' );
 define( 'LIB_PATH', '/home/jsmoriss/svn/github/surniaulula/surniaulula.github.io/trunk/' );
@@ -84,8 +85,16 @@ if ( ! empty( $content ) ) {
 	if ( ! empty( $sections['description'] ) ) {
 		echo '<h2>Description</h2>';
 		echo "\n\n";
-		$info['sections']['description'] = preg_replace( '/(<p>)?(<img src="[^"]*"[^>]*) style="[^"]*"([^>]*\/>)/',
-			'<p align="center">$2$3</p>$1', $info['sections']['description'] );
+		$info['sections']['description'] = preg_replace( 
+			array( 
+				'/(<p>)?(<img src="[^"]+"[^>]*) style="[^"]*float:[^"]+"([^>]*\/>)/',
+				'/(<div style="[^"]*float:[^"]+"[^>]*>)/'
+			),
+			array( 
+				'<p align="center">$2$3</p>$1',
+				'<div style="text-align:center;width=100%;max-width:1200px;height:auto;margin:0 0 20px 0;">'
+			),
+			$info['sections']['description'] );
 		echo $info['sections']['description'];
 		echo "\n\n";
 	}
