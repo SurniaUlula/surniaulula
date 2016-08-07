@@ -95,10 +95,12 @@ if ( ! empty( $sections['description'] ) ) {
 	echo "\n\n";
 	$info['sections']['description'] = preg_replace( 
 		array( 
+			'/`([^`]*)`/',
 			'/(<p>)?(<img src="[^"]+"[^>]*) style="[^"]*float:[^"]+"([^>]*\/>)/',
 			'/(<div style="[^"]*float:[^"]+"[^>]*>)/'
 		),
 		array( 
+			'<code>$1</code>',
 			'<p align="center">$2$3</p>$1',
 			'<div style="text-align:center;width=100%;max-width:1200px;height:auto;margin:0 0 20px 0;">'
 		),
