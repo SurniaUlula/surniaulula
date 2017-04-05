@@ -6,9 +6,9 @@
  * Copyright 2012-2015 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
 
-define( 'WP_DEBUG', false );
+define( 'WP_DEBUG', true );
 define( 'WP_USE_THEMES', false );
-define( 'WP_PATH', '/var/www/wpadm/wordpress/' );
+define( 'WP_PATH', '/var/www/surniaulula/wordpress/' );
 define( 'LIB_PATH', '/home/jsmoriss/svn/github/surniaulula/surniaulula.github.io/trunk/' );
 
 require_once( WP_PATH.'wp-load.php' );
@@ -18,8 +18,8 @@ require_once( LIB_PATH.'lib/ext/parse-readme.php' );
 $sections = array(
 	'description' => 1,
 	'installation' => 1,
-	'faq' => 1,
-	'other' => 1,
+	'faqs' => 1,
+	'notes' => 1,
 	'screenshots' => 0,
 	'changelog' => 0,
 	'notice' => 0,
@@ -30,18 +30,20 @@ $th = '<th align="right" valign="top" nowrap>';
 if ( empty( $argv[1] ) ) {
 	echo 'syntax: '.$argv[0].' {readme.txt}'."\n";
 	exit( 1 );
-} else $readme_txt = $argv[1];
+} else {
+	$readme_txt = $argv[1];
+}
 
 if ( $fh = @fopen( $readme_txt, 'rb' ) ) {
 	$content = fread( $fh, filesize( $readme_txt ) );
 	fclose( $fh );
 } else {
-	echo 'error: opening '.$readme_txt.' for read'."\n";
+	error_log(  'error opening '.$readme_txt.' for reading' );
 	exit( 1 );
 }
 
 if ( empty( $content ) ) {
-	echo 'error: no content read from '.$readme_txt."\n";
+	error_log( 'no content read from '.$readme_txt );
 	exit( 1 );
 }
 
@@ -49,7 +51,7 @@ $parser = new SuextParseReadme();
 $info = $parser->parse_readme_contents( $content );
 
 if ( empty( $info ) ) {
-	echo 'error: no info parsed from content'."\n";
+	error_log( 'no info parsed from content' );
 	exit( 1 );
 }
 
@@ -116,14 +118,14 @@ if ( ! empty( $sections['installation'] ) ) {
 	echo "\n\n";
 }
 
-if ( ! empty( $sections['faq'] ) ) {
+if ( ! empty( $sections['faqs'] ) ) {
 	echo '<h2>Frequently Asked Questions</h2>';
 	echo "\n\n";
 	echo $info['sections']['frequently_asked_questions'];
 	echo "\n\n";
 }
 
-if ( ! empty( $sections['other'] ) ) {
+if ( ! empty( $sections['notes'] ) ) {
 	echo '<h2>Other Notes</h2>';
 	echo "\n\n";
 	echo $info['remaining_content'];
