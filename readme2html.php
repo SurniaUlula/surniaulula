@@ -38,7 +38,7 @@ if ( $fh = @fopen( $readme_txt, 'rb' ) ) {
 	$content = fread( $fh, filesize( $readme_txt ) );
 	fclose( $fh );
 } else {
-	error_log(  'error opening '.$readme_txt.' for reading' );
+	error_log( 'error opening '.$readme_txt.' for reading' );
 	exit( 1 );
 }
 
