@@ -18,7 +18,7 @@ require_once( LIB_PATH.'lib/ext/parse-readme.php' );
 $sections = array(
 	'description' => 1,
 	'installation' => 1,
-	'faqs' => 1,
+	'faq' => 1,
 	'notes' => 1,
 	'screenshots' => 0,
 	'changelog' => 0,
@@ -118,10 +118,10 @@ if ( ! empty( $sections['installation'] ) ) {
 	echo "\n\n";
 }
 
-if ( ! empty( $sections['faqs'] ) ) {
+if ( ! empty( $sections['faq'] ) ) {
 	echo '<h2>Frequently Asked Questions</h2>';
 	echo "\n\n";
-	echo $info['sections']['frequently_asked_questions'];
+	echo $info['sections']['faq'];
 	echo "\n\n";
 }
 
