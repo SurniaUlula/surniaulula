@@ -65,33 +65,42 @@ if ( strpos( $info['title'], ' - ' ) ) {
 echo $title . "\n\n";
 echo '<table>' . "\n";
 
-if ( ! empty( $info['plugin_name'] ) )
+if ( ! empty( $info['plugin_name'] ) ) {
 	echo '<tr>'.$th.'Plugin Name</th><td>'.$info['plugin_name'].'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['short_description'] ) )
+if ( ! empty( $info['short_description'] ) ) {
 	echo '<tr>'.$th.'Summary</th><td>'.$info['short_description'].'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['stable_tag'] ) )
+if ( ! empty( $info['stable_tag'] ) ) {
 	echo '<tr>'.$th.'Stable Version</th><td>'.$info['stable_tag'].'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['requires_at_least'] ) )
+if ( ! empty( $info['requires_at_least'] ) ) {
 	echo '<tr>'.$th.'Requires At Least</th><td>WordPress '.$info['requires_at_least'].'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['tested_up_to'] ) )
+if ( ! empty( $info['tested_up_to'] ) ) {
 	echo '<tr>'.$th.'Tested Up To</th><td>WordPress '.$info['tested_up_to'].'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['contributors'] ) )
+if ( ! empty( $info['contributors'] ) ) {
 	echo '<tr>'.$th.'Contributors</th><td>'.( implode( ', ', $info['contributors'] ) ).'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['donate_link'] ) )
+if ( ! empty( $info['donate_link'] ) ) {
 	echo '<tr>'.$th.'WebSite URL</th><td><a href="'.$info['donate_link'].'">'.$info['donate_link'].'</a></td></tr>' . "\n";
+}
 
-if ( ! empty( $info['license'] ) )
+if ( ! empty( $info['license'] ) ) {
 	echo '<tr>'.$th.'License</th><td>'.( empty( $info['license_uri'] ) ? 
 		$info['license'] : '<a href="'.$info['license_uri'].'">'.$info['license'].'</a>' ).'</td></tr>' . "\n";
+}
 
-if ( ! empty( $info['tags'] ) )
+if ( ! empty( $info['tags'] ) ) {
 	echo '<tr>'.$th.'Tags / Keywords</th><td>'.( implode( ', ', $info['tags'] ) ).'</td></tr>' . "\n";
+}
 
 echo '</table>' . "\n\n";
 
@@ -137,8 +146,7 @@ if ( ! empty( $sections['notes'] ) ) {
 
 if ( ! empty( $sections['screenshots'] ) ) {
 	echo '<h2>Screenshots</h2>' . "\n\n";
-	if ( ! empty( $info['screenshots'] ) &&
-		! empty( $info['plugin_slug'] ) ) {
+	if ( ! empty( $info['screenshots'] ) && ! empty( $info['plugin_slug'] ) ) {
 		foreach ( $info['screenshots'] as $n => $ss ) {
 			echo '<p align="center"><img align="center" src="https://surniaulula.github.io/'.
 				$info['plugin_slug'].'/assets/screenshot-'.sprintf( '%02d', $n + 1 ).'.png"/><br/>' . "\n";
