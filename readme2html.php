@@ -17,13 +17,12 @@ require_once( LIB_PATH.'lib/ext/markdown.php' );
 require_once( LIB_PATH.'lib/ext/parse-readme.php' );
 
 $sections = array(
-	'description' => 1,
+	'description'  => 1,
 	'installation' => 1,
-	'faq' => 1,
-	'notes' => 1,
-	'screenshots' => 0,
-	'changelog' => 0,
-	'notice' => 0,
+	'faq'          => 1,
+	'screenshots'  => 0,
+	'changelog'    => 0,
+	'notice'       => 0,
 );
 
 $th = '<th align="right" valign="top" nowrap>';
@@ -110,15 +109,12 @@ if ( ! empty( $sections['description'] ) ) {
 	$info['sections']['description'] = preg_replace( 
 		array( 
 			'/`([^`]*)`/',
-			'/(<p>)?(<img src="[^"]+"[^>]*) style="[^"]*float:[^"]+"([^>]*\/>)/',
-			'/(<div style="[^"]*float:[^"]+"[^>]*>)/'
 		),
 		array( 
 			'<code>$1</code>',
-			'<p align="center">$2$3</p>$1',
-			'<div style="text-align:center;width=100%;max-width:1200px;height:auto;margin:0 0 20px 0;">'
 		),
-		$info['sections']['description'] );
+		$info['sections']['description']
+	);
 	echo $info['sections']['description'];
 	echo "\n\n";
 }
@@ -134,13 +130,6 @@ if ( ! empty( $sections['faq'] ) ) {
 	echo '<h2>Frequently Asked Questions</h2>';
 	echo "\n\n";
 	echo $info['sections']['faq'];
-	echo "\n\n";
-}
-
-if ( ! empty( $sections['notes'] ) ) {
-	echo '<h2>Other Notes</h2>';
-	echo "\n\n";
-	echo $info['remaining_content'];
 	echo "\n\n";
 }
 
