@@ -166,8 +166,11 @@ if ( ! class_exists( 'SuextParseReadme' ) ) {
 			$_sections = preg_split('/^[\s]*==[\s]*(.+?)[\s]*==/m', $file_contents, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
 	
 			$sections = array();
+
 			for ( $i = 1; $i <= count( $_sections ); $i += 2 ) {
+
 				if ( isset( $_sections[$i] ) ) {
+
 					$_sections[$i] = preg_replace('/^[\s]*=[\s]+(.+?)[\s]+=/m', '<h4>$1</h4>', $_sections[$i]);
 					$_sections[$i] = $this->filter_text( $_sections[$i], true );
 					$_sections[$i] = preg_replace( '/\[youtube https:\/\/www\.youtube\.com\/watch\?v=([^\]]+)\]/', '<div class="video"><object width="532" height="325"><param name="movie" value="http://www.youtube.com/v/$1?fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="never"></param><embed src="http://www.youtube.com/v/$1?fs=1" type="application/x-shockwave-flash" allowscriptaccess="never" allowfullscreen="true" width="532" height="325"></embed></object></div>', $_sections[$i] );
@@ -180,6 +183,7 @@ if ( ! class_exists( 'SuextParseReadme' ) ) {
 			}
 	
 			$final_sections = array();
+
 			foreach ( array(
 				'description' => 'description',
 				'installation' => 'installation',
@@ -198,8 +202,11 @@ if ( ! class_exists( 'SuextParseReadme' ) ) {
 			}
 	
 			$final_screenshots = array();
+
 			if ( isset( $final_sections['screenshots'] ) ) {
+
 				preg_match_all('|<li>(.*?)</li>|s', $final_sections['screenshots'], $screenshots, PREG_SET_ORDER);
+
 				if ( $screenshots ) {
 					foreach ( (array) $screenshots as $ss ) {
 						$final_screenshots[] = $ss[1];
@@ -208,13 +215,16 @@ if ( ! class_exists( 'SuextParseReadme' ) ) {
 			}
 	
 			if ( isset( $final_sections['upgrade_notice'] ) ) {
+
 				$upgrade_notice = array();
 				$split = preg_split( '#<h4>(.*?)</h4>#', $final_sections['upgrade_notice'], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+
 				for ( $i = 0; $i < count( $split ); $i += 2 ) {
 					if ( isset( $split[$i + 1] ) ) {
 						$upgrade_notice[$this->sanitize_text( $split[$i] )] = substr( $this->sanitize_text( $split[$i + 1] ), 0, 300 );
 					}
 				}
+
 				unset( $final_sections['upgrade_notice'] );
 			} else {
 				$upgrade_notice = '';
