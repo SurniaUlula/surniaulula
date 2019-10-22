@@ -55,8 +55,8 @@ if ( empty( $info ) ) {
 	exit( 1 );
 }
 
-if ( strpos( $info['title'], ' - ' ) ) {
-	$title = preg_replace( '/^(.*) - (.*)$/', '<h1>$1</h1><h3>$2</h3>', $info['title'] );
+if ( strpos( $info['title'], ' | ' ) ) {
+	$title = preg_replace( '/^(.*) \| (.*)$/', '<h1>$1</h1><h3>$2</h3>', $info['title'] );
 } else {
 	$title = '<h1>'.$info['title'].'</h1>';
 }
