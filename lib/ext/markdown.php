@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die( 'These aren\'t the droids you\'re looking for...' );
+	die( 'These aren\'t the droids you\'re looking for.' );
 }
 
 if ( ! defined( 'SUEXT_MARKDOWN_EMPTY_ELEMENT_SUFFIX' ) ) {
@@ -46,34 +46,35 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 
 	class SuextMarkdownParser {
 	
-		# Regex to match balanced [brackets].
-		# Needed to insert a maximum bracked depth while converting to PHP.
+		// Regex to match balanced [brackets].
+		// Needed to insert a maximum bracked depth while converting to PHP.
 		var $nested_brackets_depth = 6;
 		var $nested_brackets_re;
 		
 		var $nested_url_parenthesis_depth = 4;
 		var $nested_url_parenthesis_re;
 	
-		# Table of hash values for escaped characters:
+		// Table of hash values for escaped characters:
 		var $escape_chars = '\`*_{}[]()>#+-.!';
 		var $escape_chars_re;
 	
-		# Change to ">" for HTML output.
+		// Change to ">" for HTML output.
 		var $empty_element_suffix = SUEXT_MARKDOWN_EMPTY_ELEMENT_SUFFIX;
 		var $tab_width = SUEXT_MARKDOWN_TAB_WIDTH;
 		
-		# Change to `true` to disallow markup or entities.
+		// Change to `true` to disallow markup or entities.
 		var $no_markup = false;
 		var $no_entities = false;
 		
-		# Predefined urls and titles for reference links and images.
+		// Predefined urls and titles for reference links and images.
 		var $predef_urls = array();
 		var $predef_titles = array();
 	
 		function __construct( &$debug = false ) {
 	
-			if ( ! empty( $this->debug->enabled ) )
+			if ( ! empty( $this->debug->enabled ) ) {
 				$this->debug->mark();
+			}
 	
 			$this->_initDetab();
 			$this->prepareItalicsAndBold();
@@ -88,18 +89,18 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 			
 			$this->escape_chars_re = '['.preg_quote($this->escape_chars).']';
 			
-			# Sort document, block, and span gamut in ascendent priority order.
+			// Sort document, block, and span gamut in ascendent priority order.
 			asort($this->document_gamut);
 			asort($this->block_gamut);
 			asort($this->span_gamut);
 		}
 	
-		# Internal hashes used during transformation.
+		// Internal hashes used during transformation.
 		var $urls = array();
 		var $titles = array();
 		var $html_hashes = array();
 		
-		# Status flag to avoid invalid nesting.
+		// Status flag to avoid invalid nesting.
 		var $in_anchor = false;
 		
 		
@@ -287,7 +288,7 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 			# the inner nested divs must be indented.
 			# We need to do this before the next, more liberal match, because the next
 			# match will start at the first `<div>` and stop at the first `</div>`.
-			$text = preg_replace_callback('{(?>
+			$text = preg_replace_callback( '{(?' . '>
 				(?>
 					(?<=\n\n)		# Starting after a blank line
 					|				# or
@@ -757,17 +758,17 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 		}
 		function _doHeaders_callback_setext($matches) {
 			# Terrible hack to check we haven't found an empty list item.
-			if ( $matches[2] == '-' && preg_match( '{^-(?: |$)}', $matches[1] ) ) {
+			if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1]))
 				return $matches[0];
-			}
+			
 			$level = $matches[2]{0} == '=' ? 1 : 2;
 			$block = "<h$level>" . $this->runSpanGamut( $matches[1] ) . "</h$level>";
-			return "\n" . $this->hashBlock( $block ) . "\n\n";
+			return "\n" . $this->hashBlock($block) . "\n\n";
 		}
 		function _doHeaders_callback_atx($matches) {
 			$level = strlen($matches[1]);
 			$block = "<h$level>" . $this->runSpanGamut( $matches[2] ) . "</h$level>";
-			return "\n" . $this->hashBlock( $block ) . "\n\n";
+			return "\n" . $this->hashBlock($block) . "\n\n";
 		}
 	
 	
@@ -851,7 +852,7 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 			$list .= "\n";
 			$result = $this->processListItems($list, $marker_any_re);
 			
-			$result = $this->hashBlock( "<$list_type>\n" . $result . "</$list_type>" );
+			$result = $this->hashBlock("<$list_type>\n" . $result . "</$list_type>");
 			return "\n" . $result . "\n\n";
 		}
 	
@@ -914,7 +915,7 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				preg_match('/\n{2,}/', $item))
 			{
 				# Replace marker with the appropriate whitespace indentation
-				$item = $leading_space . str_repeat( ' ', strlen( $marker_space ) ) . $item;
+				$item = $leading_space . str_repeat(' ', strlen($marker_space)) . $item;
 				$item = $this->runBlockGamut( $this->outdent( $item ) . "\n" );
 			}
 			else {
@@ -956,7 +957,7 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 			$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
 	
 			$codeblock = "<pre><code>$codeblock\n</code></pre>";
-			return "\n\n" . $this->hashBlock( $codeblock ) . "\n\n";
+			return "\n\n" . $this->hashBlock($codeblock) . "\n\n";
 		}
 	
 	
@@ -1290,24 +1291,28 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 		#   With some optimizations by Milian Wolff.
 		#
 			$addr = "mailto:" . $addr;
-			$chars = preg_split('/(?<!^)(?!$)/', $addr);
-			$seed = (int)abs(crc32($addr) / strlen($addr)); # Deterministic seed.
+			$chars = preg_split( '/(?<!^)(?!$)/', $addr );
+			$seed = (int) abs( crc32( $addr ) / strlen( $addr ) ); # Deterministic seed.
 			
 			foreach ($chars as $key => $char) {
 				$ord = ord($char);
 				# Ignore non-ascii chars.
-				if ($ord < 128) {
-					$r = ($seed * (1 + $key)) % 100; # Pseudo-random function.
+				if ( $ord < 128 ) {
+					$r = ( $seed * ( 1 + $key ) ) % 100; # Pseudo-random function.
 					# roughly 10% raw, 45% hex, 45% dec
 					# '@' *must* be encoded. I insist.
-					if ($r > 90 && $char != '@') /* do nothing */;
-					else if ($r < 45) $chars[$key] = '&#x'.dechex($ord).';';
-					else              $chars[$key] = '&#'.$ord.';';
+					if ( $r > 90 && $char != '@' ) {
+						// do nothing
+					} elseif ( $r < 45 ) {
+						$chars[$key] = '&#x' . dechex($ord) . ';';
+					} else {
+						$chars[$key] = '&#' . $ord . ';';
+					}
 				}
 			}
 			
-			$addr = implode('', $chars);
-			$text = implode('', array_slice($chars, 7)); # text without `mailto:`
+			$addr = implode( '', $chars );
+			$text = implode( '', array_slice( $chars, 7 ) ); # text without `mailto:`
 			$addr = "<a href=\"$addr\">$text</a>";
 	
 			return $addr;
@@ -1320,14 +1325,13 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 		# escaped characters and handling code spans.
 		#
 			$output = '';
-			
 			$span_re = '{
 					(
 						\\\\'.$this->escape_chars_re.'
 					|
 						(?<![`\\\\])
 						`+						# code span marker
-				'.( $this->no_markup ? '' : '
+				' . ( $this->no_markup ? '' : '
 					|
 						<!--    .*?     -->		# comment
 					|
@@ -1377,17 +1381,19 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 		#
 			switch ($token{0}) {
 				case "\\":
-					return $this->hashPart( '&#' . ord( $token{1} ) . ';' );
+					return $this->hashPart( "&#" . ord($token{1}) . ";" );
 				case "`":
 					# Search for end marker in remaining text.
-					if ( preg_match( '/^(.*?[^`])' . preg_quote( $token ) . '(?!`)(.*)$/sm', $str, $matches ) ) {
+					if (preg_match('/^(.*?[^`])'.preg_quote($token).'(?!`)(.*)$/sm',
+						$str, $matches))
+					{
 						$str = $matches[2];
-						$codespan = $this->makeCodeSpan( $matches[1] );
-						return $this->hashPart( $codespan );
+						$codespan = $this->makeCodeSpan($matches[1]);
+						return $this->hashPart($codespan);
 					}
 					return $token; // return as text since no ending marker found.
 				default:
-					return $this->hashPart( $token );
+					return $this->hashPart($token);
 			}
 		}
 	
@@ -1677,14 +1683,14 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 					|
 						# Indented code block
 						(?: ^[ ]*\n | ^ | \n[ ]*\n )
-						[ ]{'.($indent+4).'}[^\n]* \n
+						[ ]{' . ($indent+4).'}[^\n]* \n
 						(?>
-							(?: [ ]{'.($indent+4).'}[^\n]* | [ ]* ) \n
+							(?: [ ]{' . ($indent+4).'}[^\n]* | [ ]* ) \n
 						)*
 					|
 						# Fenced code block marker
 						(?> ^ | \n )
-						[ ]{'.($indent).'}~~~+[ ]*\n
+						[ ]{' . ($indent).'}~~~+[ ]*\n
 					' : '' ). ' # End (if not is span).
 					)
 				}xs';
@@ -1732,14 +1738,11 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				if ($tag{0} == "`") {
 					# Find corresponding end marker.
 					$tag_re = preg_quote($tag);
-					if (preg_match('{^(?>.+?|\n(?!\n))*?(?<!`)'.$tag_re.'(?!`)}',
-						$text, $matches))
-					{
+					if ( preg_match( '{^(?' . '>.+?|\n(?!\n))*?(?<!`)' . $tag_re . '(?!`)}', $text, $matches ) ) {
 						# End marker found: pass text unchanged until marker.
 						$parsed .= $tag . $matches[0];
-						$text = substr($text, strlen($matches[0]));
-					}
-					else {
+						$text = substr( $text, strlen( $matches[0] ) );
+					} else {
 						# Unmatched marker: just skip it.
 						$parsed .= $tag;
 					}
@@ -1758,14 +1761,11 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				else if ($tag{0} == "~") {
 					# Fenced code block marker: find matching end marker.
 					$tag_re = preg_quote(trim($tag));
-					if (preg_match('{^(?>.*\n)+?'.$tag_re.' *\n}', $text,
-						$matches))
-					{
+					if ( preg_match( '{^(?' . '>.*\n)+?' . $tag_re . ' *\n}', $text, $matches ) ) {
 						# End marker found: pass text unchanged until marker.
 						$parsed .= $tag . $matches[0];
 						$text = substr($text, strlen($matches[0]));
-					}
-					else {
+					} else {
 						# No end marker: just skip it.
 						$parsed .= $tag;
 					}
@@ -1775,12 +1775,11 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				#            Opening Context Block tag (like ins and del)
 				#               used as a block tag (tag is alone on it's line).
 				#
-				else if (preg_match('{^<(?:'.$this->block_tags_re.')\b}', $tag) ||
-					(	preg_match('{^<(?:'.$this->context_block_tags_re.')\b}', $tag) &&
-						preg_match($newline_before_re, $parsed) &&
-						preg_match($newline_after_re, $text)	)
-					)
-				{
+				else if ( preg_match( '{^<(?:' . $this->block_tags_re . ')\b}', $tag ) || 
+					( preg_match('{^<(?:' . $this->context_block_tags_re . ')\b}', $tag) &&
+						preg_match( $newline_before_re, $parsed ) &&
+							preg_match( $newline_after_re, $text ) ) ) {
+
 					# Need to parse tag and following text using the HTML parser.
 					list($block_text, $text) =
 						$this->_hashHTMLBlocks_inHTML($tag . $text, "hashBlock", true);
@@ -1792,28 +1791,26 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				# Check for: Clean tag (like script, math)
 				#            HTML Comments, processing instructions.
 				#
-				else if (preg_match('{^<(?:'.$this->clean_tags_re.')\b}', $tag) ||
-					$tag{1} == '!' || $tag{1} == '?')
-				{
+				else if ( preg_match( '{^<(?:' . $this->clean_tags_re . ')\b}', $tag ) || $tag{1} == '!' || $tag{1} == '?' ) {
 					# Need to parse tag and following text using the HTML parser.
 					# (don't check for markdown attribute)
-					list($block_text, $text) =
-						$this->_hashHTMLBlocks_inHTML($tag . $text, "hashClean", false);
+					list( $block_text, $text ) = $this->_hashHTMLBlocks_inHTML( $tag . $text, "hashClean", false );
 					
 					$parsed .= $block_text;
 				}
 				#
 				# Check for: Tag with same name as enclosing tag.
 				#
-				else if ($enclosing_tag_re !== '' &&
-					# Same name as enclosing tag.
-					preg_match('{^</?(?:'.$enclosing_tag_re.')\b}', $tag))
-				{
+				# Same name as enclosing tag.
+				else if ( $enclosing_tag_re !== '' && preg_match( '{^</?(?:' . $enclosing_tag_re . ')\b}', $tag ) ) {
 					#
 					# Increase/decrease nested tag count.
 					#
-					if ($tag{1} == '/')						$depth--;
-					else if ($tag{strlen($tag)-2} != '/')	$depth++;
+					if ( $tag{1} == '/' ) {
+						$depth--;
+					} else if ( $tag{strlen($tag)-2} != '/' ) {
+						$depth++;
+					}
 	
 					if ($depth < 0) {
 						#
@@ -1928,36 +1925,35 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				# Check for: Auto-close tag (like <hr/>)
 				#			 Comments and Processing Instructions.
 				#
-				if (preg_match('{^</?(?:'.$this->auto_close_tags_re.')\b}', $tag) ||
-					$tag{1} == '!' || $tag{1} == '?')
-				{
+				if ( preg_match( '{^</?(?:' . $this->auto_close_tags_re . ')\b}', $tag ) || $tag{1} == '!' || $tag{1} == '?' ) {
 					# Just add the tag to the block as if it was text.
 					$block_text .= $tag;
-				}
-				else {
+				} else {
 					#
 					# Increase/decrease nested tag count. Only do so if
 					# the tag's name match base tag's.
 					#
-					if (preg_match('{^</?'.$base_tag_name_re.'\b}', $tag)) {
-						if ($tag{1} == '/')						$depth--;
-						else if ($tag{strlen($tag)-2} != '/')	$depth++;
+					if ( preg_match( '{^</?' . $base_tag_name_re . '\b}', $tag ) ) {
+						if ( $tag{1} == '/' ) {
+							$depth--;
+						} else if ($tag{strlen($tag)-2} != '/')	{
+							$depth++;
+						}
 					}
 					
 					#
 					# Check for `markdown="1"` attribute and handle it.
 					#
-					if ($md_attr &&
-						preg_match($markdown_attr_re, $tag, $attr_m) &&
-						preg_match('/^1|block|span$/', $attr_m[2] . $attr_m[3]))
-					{
+					if ( $md_attr && preg_match($markdown_attr_re, $tag, $attr_m) && 
+						preg_match('/^1|block|span$/', $attr_m[2] . $attr_m[3])) {
+
 						# Remove `markdown` attribute from opening tag.
 						$tag = preg_replace($markdown_attr_re, '', $tag);
 						
 						# Check if text inside this tag must be parsed in span mode.
 						$this->mode = $attr_m[2] . $attr_m[3];
 						$span_mode = $this->mode == 'span' || $this->mode != 'block' &&
-							preg_match('{^<(?:'.$this->contain_span_tags_re.')\b}', $tag);
+							preg_match('{^<(?:' . $this->contain_span_tags_re . ')\b}', $tag);
 						
 						# Calculate indent before tag.
 						if (preg_match('/(?:^|\n)( *?)(?! ).*?$/', $block_text, $matches)) {
@@ -1983,13 +1979,15 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 						
 						# Outdent markdown text.
 						if ($indent > 0) {
-							$block_text = preg_replace("/^[ ]{1,$indent}/m", "",
-														$block_text);
+							$block_text = preg_replace("/^[ ]{1,$indent}/m", "", $block_text);
 						}
 						
 						# Append tag content to parsed text.
-						if (!$span_mode)	$parsed .= "\n\n$block_text\n\n";
-						else				$parsed .= "$block_text";
+						if ( ! $span_mode ) {
+							$parsed .= "\n\n$block_text\n\n";
+						} else {
+							$parsed .= "$block_text";
+						}
 						
 						# Start over a new block.
 						$block_text = "";
@@ -2058,11 +2056,13 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 	
 			return $text;
 		}
-		function _doHeaders_attr(&$attr) {
-			if (empty($attr))  return "";
+		function _doHeaders_attr( &$attr ) {
+			if ( empty( $attr ) ) {
+				return '';
+			}
 			return " id=\"$attr\"";
 		}
-		function _doHeaders_callback_setext($matches) {
+		function _doHeaders_callback_setext( $matches ) {
 			if ( $matches[3] == '-' && preg_match( '{^- }', $matches[1] ) ) {
 				return $matches[0];
 			}
@@ -2071,9 +2071,9 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 			$block = "<h$level$attr>" . $this->runSpanGamut( $matches[1] ) . "</h$level>";
 			return "\n" . $this->hashBlock( $block ) . "\n\n";
 		}
-		function _doHeaders_callback_atx($matches) {
-			$level = strlen($matches[1]);
-			$attr  = $this->_doHeaders_attr($matches[3]);
+		function _doHeaders_callback_atx( $matches ) {
+			$level = strlen( $matches[1] );
+			$attr  = $this->_doHeaders_attr( $matches[3] );
 			$block = "<h$level$attr>" . $this->runSpanGamut( $matches[2] ) . "</h$level>";
 			return "\n" . $this->hashBlock( $block ) . "\n\n";
 		}
@@ -2179,9 +2179,8 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 			$text = "<table>\n";
 			$text .= "<thead>\n";
 			$text .= "<tr>\n";
-			foreach ( $headers as $n => $header ) {
+			foreach ($headers as $n => $header)
 				$text .= "  <th$attr[$n]>" . $this->runSpanGamut( trim( $header ) ) . "</th>\n";
-			}
 			$text .= "</tr>\n";
 			$text .= "</thead>\n";
 			
@@ -2199,9 +2198,8 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				$row_cells = array_pad($row_cells, $col_count, '');
 				
 				$text .= "<tr>\n";
-				foreach ( $row_cells as $n => $cell ) {
+				foreach ($row_cells as $n => $cell)
 					$text .= "  <td$attr[$n]>" . $this->runSpanGamut( trim( $cell ) ) . "</td>\n";
-				}
 				$text .= "</tr>\n";
 			}
 			$text .= "</tbody>\n";
@@ -2373,14 +2371,12 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 		function _doFencedCodeBlocks_callback($matches) {
 			$codeblock = $matches[2];
 			$codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
-			$codeblock = preg_replace_callback('/^\n+/',
-				array(&$this, '_doFencedCodeBlocks_newlines'), $codeblock);
+			$codeblock = preg_replace_callback('/^\n+/', array( &$this, '_doFencedCodeBlocks_newlines' ), $codeblock);
 			$codeblock = "<pre><code>$codeblock</code></pre>";
 			return "\n\n" . $this->hashBlock( $codeblock ) . "\n\n";
 		}
 		function _doFencedCodeBlocks_newlines($matches) {
-			return str_repeat("<br$this->empty_element_suffix",
-				strlen($matches[0]));
+			return str_repeat("<br$this->empty_element_suffix", strlen( $matches[0] ) );
 		}
 	
 	
@@ -2515,7 +2511,8 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 				}
 				$num = 0;
 				
-				while (!empty($this->footnotes_ordered)) {
+				while ( ! empty( $this->footnotes_ordered ) ) {
+
 					$footnote = reset($this->footnotes_ordered);
 					$note_id = key($this->footnotes_ordered);
 					unset($this->footnotes_ordered[$note_id]);
@@ -2530,7 +2527,8 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 					
 					# Add backlink to last paragraph; create new paragraph if needed.
 					$backlink = "<a href=\"#fnref:$note_id\"$attr>&#8617;</a>";
-					if (preg_match('{</p>$}', $footnote)) {
+
+					if ( preg_match( '{</p>$}', $footnote ) ) {
 						$footnote = substr($footnote, 0, -4) . "&#160;$backlink</p>";
 					} else {
 						$footnote .= "\n\n<p>$backlink</p>";
@@ -2643,4 +2641,3 @@ if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 		}
 	}
 }
-
