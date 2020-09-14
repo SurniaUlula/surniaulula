@@ -7,8 +7,14 @@
  * @subpackage tools
  */
 
-$pomo = dirname( dirname( dirname( __FILE__ ) ) ) . '/src/wp-includes/pomo';
-require_once "$pomo/po.php";
+if ( ! defined( 'ABSPATH' ) ) {
+
+	die( 'These aren\'t the droids you\'re looking for.' );
+}
+
+$pomo = ABSPATH . 'wp-includes/pomo/';
+
+require_once $pomo . 'po.php';
 require_once dirname( __FILE__ ) . '/makepot.php';
 
 class PotExtMeta {

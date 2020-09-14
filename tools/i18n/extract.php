@@ -1,7 +1,14 @@
 <?php
-$pomo = dirname( dirname( dirname( __FILE__ ) ) ) . '/src/wp-includes/pomo';
-require_once "$pomo/entry.php";
-require_once "$pomo/translations.php";
+
+if ( ! defined( 'ABSPATH' ) ) {
+
+	die( 'These aren\'t the droids you\'re looking for.' );
+}
+
+$pomo = ABSPATH . 'wp-includes/pomo/';
+
+require_once $pomo . 'entry.php';
+require_once $pomo . 'translations.php';
 
 /**
  * Responsible for extracting translatable strings from PHP source files
@@ -14,34 +21,52 @@ class StringExtractor {
 		'_e' => array( 'string' ),
 		'_n' => array( 'singular', 'plural' ),
 	);
+
 	var $comment_prefix = 'translators:';
 
 	function __construct( $rules = array() ) {
+
 		$this->rules = $rules;
 	}
 
 	function extract_from_directory( $dir, $excludes = array(), $includes = array(), $prefix = '' ) {
+
 		$old_cwd = getcwd();
+
 		chdir( $dir );
+
 		$translations = new Translations;
+
 		$file_names = (array) scandir( '.' );
+
 		foreach ( $file_names as $file_name ) {
+
 			if ( '.' == $file_name || '..' == $file_name ) continue;
+
 			if ( preg_match( '/\.php$/', $file_name ) && $this->does_file_name_match( $prefix . $file_name, $excludes, $includes ) ) {
+
 				$extracted = $this->extract_from_file( $file_name, $prefix );
+
 				$translations->merge_originals_with( $extracted );
 			}
+
 			if ( is_dir( $file_name ) ) {
+
 				$extracted = $this->extract_from_directory( $file_name, $excludes, $includes, $prefix . $file_name . '/' );
+
 				$translations->merge_originals_with( $extracted );
 			}
 		}
+
 		chdir( $old_cwd );
+
 		return $translations;
 	}
 
 	function extract_from_file( $file_name, $prefix ) {
+
 		$code = file_get_contents( $file_name );
+
 		return $this->extract_from_code( $code, $prefix . $file_name );
 	}
 

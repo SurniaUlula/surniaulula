@@ -18,7 +18,9 @@ class AddTextdomain {
 	 * PHP5 constructor.
 	 */
 	function __construct() {
+
 		$makepot = new MakePOT;
+
 		$this->funcs = array_keys( $makepot->rules );
 	}
 
@@ -26,20 +28,29 @@ class AddTextdomain {
 	 * PHP4 constructor.
 	 */
 	public function AddTextdomain() {
+
 		_deprecated_constructor( 'AddTextdomain' , '4.3'  );
 	}
 
 	function usage() {
+
 		$usage = "Usage: php add-textdomain.php [-i] <domain> <file>\n\nAdds the string <domain> as a last argument to all i18n function calls in <file>\nand prints the modified php file on standard output.\n\nOptions:\n    -i    Modifies the PHP file in place, instead of printing it to standard output.\n";
+
 		fwrite(STDERR, $usage);
-		exit(1);
+
+		exit( 1 );
 	}
 
 	function process_token($token_text, $inplace) {
-		if ($inplace)
+
+		if ( $inplace ) {
+
 			$this->modified_contents .= $token_text;
-		else
+
+		} else {
+
 			echo $token_text;
+		}
 	}
 
 

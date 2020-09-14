@@ -1,9 +1,11 @@
 <?php
+
 require_once dirname( __FILE__ ) . '/not-gettexted.php';
 require_once dirname( __FILE__ ) . '/pot-ext-meta.php';
 require_once dirname( __FILE__ ) . '/extract.php';
 
 if ( !defined( 'STDERR' ) ) {
+
 	define( 'STDERR', fopen( 'php://stderr', 'w' ) );
 }
 
@@ -164,12 +166,19 @@ class MakePOT {
 	}
 
 	function xgettext($project, $dir, $output_file, $placeholders = array(), $excludes = array(), $includes = array()) {
+
 		$meta = array_merge( $this->meta['default'], $this->meta[$project] );
+
 		$placeholders = array_merge( $meta, $placeholders );
+
 		$meta['output'] = $this->realpath_missing( $output_file );
+
 		$placeholders['year'] = date( 'Y' );
+
 		$placeholder_keys = array_map( create_function( '$x', 'return "{".$x."}";' ), array_keys( $placeholders ) );
+
 		$placeholder_values = array_values( $placeholders );
+
 		foreach($meta as $key => $value) {
 			$meta[$key] = str_replace($placeholder_keys, $placeholder_values, $value);
 		}
@@ -243,6 +252,7 @@ class MakePOT {
 	}
 
 	function wp_frontend( $dir, $output ) {
+
 		if ( ! file_exists( "$dir/wp-admin/user/about.php" ) ) {
 			return false;
 		}
@@ -392,16 +402,22 @@ class MakePOT {
 		) );
 	}
 
-	function wp_version($dir) {
+	function wp_version( $dir ) {
+
 		$version_php = $dir.'/wp-includes/version.php';
+
 		if ( !is_readable( $version_php ) ) return false;
+
 		return preg_match( '/\$wp_version\s*=\s*\'(.*?)\';/', file_get_contents( $version_php ), $matches )? $matches[1] : false;
 	}
 
 
-	function mu($dir, $output) {
+	function mu( $dir, $output ) {
+
 		$placeholders = array();
-		if (preg_match('/\$wpmu_version\s*=\s*\'(.*?)\';/', file_get_contents($dir.'/wp-includes/version.php'), $matches)) {
+
+		if ( preg_match('/\$wpmu_version\s*=\s*\'(.*?)\';/', file_get_contents($dir.'/wp-includes/version.php'), $matches) ) {
+
 			$placeholders['version'] = $matches[1];
 		}
 		$output = is_null($output)? 'wordpress.pot' : $output;

@@ -6,17 +6,27 @@
  * @package wordpress-i18n
  * @subpackage tools
  */
-// see: http://php.net/tokenizer
-if ( ! defined( 'T_ML_COMMENT' ) )
-	    define( 'T_ML_COMMENT', T_COMMENT );
-else
-	    define( 'T_DOC_COMMENT', T_ML_COMMENT );
 
-$pomo = dirname( dirname( dirname( __FILE__ ) ) ) . '/src/wp-includes/pomo';
-require_once "$pomo/po.php";
-require_once "$pomo/mo.php";
+if ( ! defined( 'ABSPATH' ) ) {
+
+	die( 'These aren\'t the droids you\'re looking for.' );
+}
+
+if ( ! defined( 'T_ML_COMMENT' ) ) {	// See http://php.net/tokenizer.
+
+	define( 'T_ML_COMMENT', T_COMMENT );
+} else {
+
+	define( 'T_DOC_COMMENT', T_ML_COMMENT );
+}
+
+$pomo = ABSPATH . 'wp-includes/pomo/';
+
+require_once $pomo . 'po.php';
+require_once $pomo . 'mo.php';
 
 class NotGettexted {
+
 	var $enable_logging = false;
 
 	var $STAGE_OUTSIDE = 0;
