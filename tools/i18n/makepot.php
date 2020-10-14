@@ -498,8 +498,11 @@ class MakePOT {
 		}
 
 		$main_file = '';
+
 		foreach ( $plugin_files as $plugin_file ) {
+
 			if ( ! is_readable( "$dir/$plugin_file" ) ) {
+
 				continue;
 			}
 
@@ -507,12 +510,15 @@ class MakePOT {
 
 			// Stop when we find a file with a plugin name header in it.
 			if ( $this->get_addon_header( 'Plugin Name', $source ) != false ) {
+
 				$main_file = "$dir/$plugin_file";
+
 				break;
 			}
 		}
 
 		if ( empty( $main_file ) ) {
+
 			return false;
 		}
 
