@@ -120,7 +120,7 @@ if ($included_files[0] == __FILE__) {
 	if ('-i' == $argv[1]) {
 		$inplace = true;
 		if (!isset($argv[3])) $adddomain->usage();
-		array_shift($argv);	
+		array_shift($argv);
 	}
 
 	$adddomain->process_file($argv[1], $argv[2], $inplace);
