@@ -124,7 +124,7 @@ if ( ! empty( $plugin_readme[ 'wc_tested_up_to' ] ) ) {
 
 if ( ! empty( $plugin_readme[ 'contributors' ] ) ) {
 
-	echo $trth . 'Contributors' . $thtd . ( implode( ', ', $plugin_readme[ 'contributors' ] ) ) . $tdtr;
+	echo $trth . 'Contributors' . $thtd . ( implode( $glue = ', ', $plugin_readme[ 'contributors' ] ) ) . $tdtr;
 }
 
 if ( ! empty( $plugin_readme[ 'donate_link' ] ) ) {
@@ -140,7 +140,7 @@ if ( ! empty( $plugin_readme[ 'license' ] ) ) {
 
 if ( ! empty( $plugin_readme[ 'tags' ] ) ) {
 
-	echo $trth . 'Tags / Keywords' . $thtd . ( implode( ', ', $plugin_readme[ 'tags' ] ) ) . $tdtr;
+	echo $trth . 'Tags / Keywords' . $thtd . ( implode( $glue = ', ', $plugin_readme[ 'tags' ] ) ) . $tdtr;
 }
 
 echo '</table>' . "\n\n";

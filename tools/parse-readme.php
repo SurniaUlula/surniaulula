@@ -25,7 +25,7 @@ if ( ! class_exists( 'SuextParseReadme' ) ) {
 
 		function parse_readme( $file_path ) {
 
-			$file_contents   = @implode( '', @file( $file_path ) );
+			$file_contents   = @implode( $glue = '', @file( $file_path ) );
 			$readme_contents = $this->parse_readme_contents( $file_contents );
 
 			return $readme_contents;

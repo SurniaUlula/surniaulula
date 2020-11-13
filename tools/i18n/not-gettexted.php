@@ -40,7 +40,9 @@ class NotGettexted {
 
 
 	function logmsg() {
+
 		$args = func_get_args();
+
 		if ($this->enable_logging) error_log(implode(' ', $args));
 	}
 

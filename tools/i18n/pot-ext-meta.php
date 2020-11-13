@@ -56,13 +56,21 @@ class PotExtMeta {
 	}
 
 	function append( $ext_filename, $pot_filename, $headers = null ) {
-		if ( $headers )
+
+		if ( $headers ) {
+
 			$this->headers = (array) $headers;
+		}
+
 		if ( is_dir( $ext_filename ) ) {
+
 			$pot = implode('', array_map(array($this, 'load_from_file'), glob("$ext_filename/*.php")));
+
 		} else {
+
 			$pot = $this->load_from_file($ext_filename);
 		}
+
 		$potf = '-' == $pot_filename? STDOUT : fopen($pot_filename, 'a');
 		if (!$potf) return false;
 		fwrite($potf, $pot);
