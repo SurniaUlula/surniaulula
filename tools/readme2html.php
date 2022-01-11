@@ -160,21 +160,27 @@ if ( ! empty( $sections[ 'description' ] ) ) {
 
 if ( ! empty( $sections[ 'installation' ] ) ) {
 
-	echo '<h2>Installation</h2>' . "\n\n";
-	echo $plugin_readme[ 'sections' ][ 'installation' ] . "\n\n";
+	if ( ! empty( $plugin_readme[ 'sections' ][ 'installation' ] ) ) {
+
+		echo '<h2>Installation</h2>' . "\n\n";
+		echo $plugin_readme[ 'sections' ][ 'installation' ] . "\n\n";
+	}
 }
 
 if ( ! empty( $sections[ 'faq' ] ) ) {
 
-	echo '<h2>Frequently Asked Questions</h2>' . "\n\n";
-	echo $plugin_readme[ 'sections' ][ 'faq' ] . "\n\n";
+	if ( ! empty( $plugin_readme[ 'sections' ][ 'faq' ] ) ) {
+
+		echo '<h2>Frequently Asked Questions</h2>' . "\n\n";
+		echo $plugin_readme[ 'sections' ][ 'faq' ] . "\n\n";
+	}
 }
 
 if ( ! empty( $sections[ 'screenshots' ] ) ) {
 
-	echo '<h2>Screenshots</h2>' . "\n\n";
-
 	if ( ! empty( $plugin_readme[ 'screenshots' ] ) && ! empty( $plugin_readme[ 'plugin_slug' ] ) ) {
+
+		echo '<h2>Screenshots</h2>' . "\n\n";
 
 		foreach ( $plugin_readme[ 'screenshots' ] as $num => $screenshot ) {
 
@@ -194,9 +200,9 @@ if ( ! empty( $sections[ 'changelog' ] ) ) {
 
 if ( ! empty( $sections[ 'notice' ] ) ) {
 
-	echo '<h2>Upgrade Notice</h2>' . "\n\n";
-
 	if ( ! empty( $plugin_readme[ 'upgrade_notice' ] ) ) {
+
+		echo '<h2>Upgrade Notice</h2>' . "\n\n";
 
 		foreach ( $plugin_readme[ 'upgrade_notice' ] as $version => $notice ) {
 
