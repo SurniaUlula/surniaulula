@@ -155,24 +155,24 @@ if ( ! empty( $sections[ 'description' ] ) ) {
 		$plugin_readme[ 'sections' ][ 'description' ]
 	);
 
-	echo $plugin_readme[ 'sections' ][ 'description' ] . "\n\n";
+	echo $plugin_readme[ 'sections' ][ 'description' ] . "\n";
 }
 
 if ( ! empty( $sections[ 'installation' ] ) ) {
 
-	if ( ! empty( $plugin_readme[ 'sections' ][ 'installation' ] ) ) {
+	if ( trim( $plugin_readme[ 'sections' ][ 'installation' ] ) ) {
 
 		echo '<h2>Installation</h2>' . "\n\n";
-		echo $plugin_readme[ 'sections' ][ 'installation' ] . "\n\n";
+		echo $plugin_readme[ 'sections' ][ 'installation' ] . "\n";
 	}
 }
 
 if ( ! empty( $sections[ 'faq' ] ) ) {
 
-	if ( ! empty( $plugin_readme[ 'sections' ][ 'faq' ] ) ) {
+	if ( trim( $plugin_readme[ 'sections' ][ 'faq' ] ) ) {
 
 		echo '<h2>Frequently Asked Questions</h2>' . "\n\n";
-		echo $plugin_readme[ 'sections' ][ 'faq' ] . "\n\n";
+		echo $plugin_readme[ 'sections' ][ 'faq' ] . "\n";
 	}
 }
 
@@ -184,7 +184,9 @@ if ( ! empty( $sections[ 'screenshots' ] ) ) {
 
 		foreach ( $plugin_readme[ 'screenshots' ] as $num => $screenshot ) {
 
-			echo '<p align="center"><img align="center" src="https://surniaulula.github.io/' . 
+			echo '<p align="center">';
+
+			echo '<img align="center" src="https://surniaulula.github.io/' .
 				$plugin_readme[ 'plugin_slug' ] . '/assets/screenshot-' . sprintf( '%02d', $num + 1 ) . '.png"/><br/>' . "\n";
 
 			echo $screenshot . '</p>' . "\n\n";
@@ -195,7 +197,7 @@ if ( ! empty( $sections[ 'screenshots' ] ) ) {
 if ( ! empty( $sections[ 'changelog' ] ) ) {
 
 	echo '<h2>Changelog</h2>' . "\n\n";
-	echo $plugin_readme[ 'sections' ][ 'changelog' ] . "\n\n";
+	echo $plugin_readme[ 'sections' ][ 'changelog' ] . "\n";
 }
 
 if ( ! empty( $sections[ 'notice' ] ) ) {
@@ -206,7 +208,7 @@ if ( ! empty( $sections[ 'notice' ] ) ) {
 
 		foreach ( $plugin_readme[ 'upgrade_notice' ] as $version => $notice ) {
 
-			echo '<h4>' . $version . '</h4>' . "\n";
+			echo '<h4>' . $version . '</h4>' . "\n\n";
 			echo '<p>' . $notice . '</p>' . "\n\n";
 		}
 	}
