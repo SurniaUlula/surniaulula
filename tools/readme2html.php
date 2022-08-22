@@ -59,24 +59,24 @@ if ( ! class_exists( 'SuextParseReadme' ) ) {
 	require_once LIB_PATH . 'parse-readme.php';
 }
 
-$parser =& SuextParseReadme::get_instance();
+$readme_parser =& SuextParseReadme::get_instance();
 
-$plugin_readme = $parser->parse_readme_contents( $content );
+$readme_info = $readme_parser->parse_content( $content );
 
-if ( empty( $plugin_readme ) ) {
+if ( empty( $readme_info ) ) {
 
 	error_log( 'no info parsed from content' );
 
 	exit( 1 );
 }
 
-if ( strpos( $plugin_readme[ 'title' ], ' | ' ) ) {
+if ( strpos( $readme_info[ 'title' ], ' | ' ) ) {
 
-	$title = preg_replace( '/^(.*) \| (.*)$/', '<h1>$1</h1><h3>$2</h3>', $plugin_readme[ 'title' ] );
+	$title = preg_replace( '/^(.*) \| (.*)$/', '<h1>$1</h1><h3>$2</h3>', $readme_info[ 'title' ] );
 
 } else {
 
-	$title = '<h1>' . $plugin_readme[ 'title' ] . '</h1>';
+	$title = '<h1>' . $readme_info[ 'title' ] . '</h1>';
 }
 
 echo $title . "\n\n";
@@ -87,60 +87,60 @@ $trth = '<tr><th align="right" valign="top" nowrap>';
 $thtd = '</th><td>';
 $tdtr = '</td></tr>' . "\n";
 
-if ( ! empty( $plugin_readme[ 'plugin_name' ] ) ) {
+if ( ! empty( $readme_info[ 'plugin_name' ] ) ) {
 
-	echo $trth . 'Plugin Name' . $thtd . $plugin_readme[ 'plugin_name' ] . $tdtr;
+	echo $trth . 'Plugin Name' . $thtd . $readme_info[ 'plugin_name' ] . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'short_description' ] ) ) {
+if ( ! empty( $readme_info[ 'short_description' ] ) ) {
 
-	echo $trth . 'Summary' . $thtd . $plugin_readme[ 'short_description' ] . $tdtr;
+	echo $trth . 'Summary' . $thtd . $readme_info[ 'short_description' ] . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'stable_tag' ] ) ) {
+if ( ! empty( $readme_info[ 'stable_tag' ] ) ) {
 
-	echo $trth . 'Stable Version' . $thtd . $plugin_readme[ 'stable_tag' ] . $tdtr;
+	echo $trth . 'Stable Version' . $thtd . $readme_info[ 'stable_tag' ] . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'requires_php' ] ) ) {
+if ( ! empty( $readme_info[ 'requires_php' ] ) ) {
 
-	echo $trth . 'Requires PHP' . $thtd . $plugin_readme[ 'requires_php' ] . ' or newer' . $tdtr;
+	echo $trth . 'Requires PHP' . $thtd . $readme_info[ 'requires_php' ] . ' or newer' . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'requires_at_least' ] ) ) {
+if ( ! empty( $readme_info[ 'requires_at_least' ] ) ) {
 
-	echo $trth . 'Requires WordPress' . $thtd . $plugin_readme[ 'requires_at_least' ] . ' or newer' . $tdtr;
+	echo $trth . 'Requires WordPress' . $thtd . $readme_info[ 'requires_at_least' ] . ' or newer' . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'tested_up_to' ] ) ) {
+if ( ! empty( $readme_info[ 'tested_up_to' ] ) ) {
 
-	echo $trth . 'Tested Up To WordPress' . $thtd . $plugin_readme[ 'tested_up_to' ] . $tdtr;
+	echo $trth . 'Tested Up To WordPress' . $thtd . $readme_info[ 'tested_up_to' ] . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'wc_tested_up_to' ] ) ) {
+if ( ! empty( $readme_info[ 'wc_tested_up_to' ] ) ) {
 
-	echo $trth . 'Tested Up To WooCommerce' . $thtd . $plugin_readme[ 'wc_tested_up_to' ] . $tdtr;
+	echo $trth . 'Tested Up To WooCommerce' . $thtd . $readme_info[ 'wc_tested_up_to' ] . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'contributors' ] ) ) {
+if ( ! empty( $readme_info[ 'contributors' ] ) ) {
 
-	echo $trth . 'Contributors' . $thtd . ( implode( $glue = ', ', $plugin_readme[ 'contributors' ] ) ) . $tdtr;
+	echo $trth . 'Contributors' . $thtd . ( implode( $glue = ', ', $readme_info[ 'contributors' ] ) ) . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'donate_link' ] ) ) {
+if ( ! empty( $readme_info[ 'donate_link' ] ) ) {
 
-	echo $trth . 'WebSite URL</th><td><a href="' . $plugin_readme[ 'donate_link' ] . '">' . $plugin_readme[ 'donate_link' ] . '</a>' . $tdtr;
+	echo $trth . 'WebSite URL</th><td><a href="' . $readme_info[ 'donate_link' ] . '">' . $readme_info[ 'donate_link' ] . '</a>' . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'license' ] ) ) {
+if ( ! empty( $readme_info[ 'license' ] ) ) {
 
-	echo $trth . 'License' . $thtd . ( empty( $plugin_readme[ 'license_uri' ] ) ? $plugin_readme[ 'license' ] :
-		'<a href="' . $plugin_readme[ 'license_uri' ] . '">' . $plugin_readme[ 'license' ] . '</a>' ) . $tdtr;
+	echo $trth . 'License' . $thtd . ( empty( $readme_info[ 'license_uri' ] ) ? $readme_info[ 'license' ] :
+		'<a href="' . $readme_info[ 'license_uri' ] . '">' . $readme_info[ 'license' ] . '</a>' ) . $tdtr;
 }
 
-if ( ! empty( $plugin_readme[ 'tags' ] ) ) {
+if ( ! empty( $readme_info[ 'tags' ] ) ) {
 
-	echo $trth . 'Tags / Keywords' . $thtd . ( implode( $glue = ', ', $plugin_readme[ 'tags' ] ) ) . $tdtr;
+	echo $trth . 'Tags / Keywords' . $thtd . ( implode( $glue = ', ', $readme_info[ 'tags' ] ) ) . $tdtr;
 }
 
 echo '</table>' . "\n\n";
@@ -149,45 +149,45 @@ if ( ! empty( $sections[ 'description' ] ) ) {
 
 	echo '<h2>Description</h2>' . "\n\n";
 
-	$plugin_readme[ 'sections' ][ 'description' ] = preg_replace( 
+	$readme_info[ 'sections' ][ 'description' ] = preg_replace( 
 		array( '/`([^`]*)`/' ),
 		array( '<code>$1</code>' ),
-		$plugin_readme[ 'sections' ][ 'description' ]
+		$readme_info[ 'sections' ][ 'description' ]
 	);
 
-	echo $plugin_readme[ 'sections' ][ 'description' ] . "\n";
+	echo $readme_info[ 'sections' ][ 'description' ] . "\n";
 }
 
 if ( ! empty( $sections[ 'installation' ] ) ) {
 
-	if ( trim( $plugin_readme[ 'sections' ][ 'installation' ] ) ) {
+	if ( trim( $readme_info[ 'sections' ][ 'installation' ] ) ) {
 
 		echo '<h2>Installation</h2>' . "\n\n";
-		echo $plugin_readme[ 'sections' ][ 'installation' ] . "\n";
+		echo $readme_info[ 'sections' ][ 'installation' ] . "\n";
 	}
 }
 
 if ( ! empty( $sections[ 'faq' ] ) ) {
 
-	if ( trim( $plugin_readme[ 'sections' ][ 'faq' ] ) ) {
+	if ( trim( $readme_info[ 'sections' ][ 'faq' ] ) ) {
 
 		echo '<h2>Frequently Asked Questions</h2>' . "\n\n";
-		echo $plugin_readme[ 'sections' ][ 'faq' ] . "\n";
+		echo $readme_info[ 'sections' ][ 'faq' ] . "\n";
 	}
 }
 
 if ( ! empty( $sections[ 'screenshots' ] ) ) {
 
-	if ( ! empty( $plugin_readme[ 'screenshots' ] ) && ! empty( $plugin_readme[ 'plugin_slug' ] ) ) {
+	if ( ! empty( $readme_info[ 'screenshots' ] ) && ! empty( $readme_info[ 'plugin_slug' ] ) ) {
 
 		echo '<h2>Screenshots</h2>' . "\n\n";
 
-		foreach ( $plugin_readme[ 'screenshots' ] as $num => $screenshot ) {
+		foreach ( $readme_info[ 'screenshots' ] as $num => $screenshot ) {
 
 			echo '<p align="center">';
 
 			echo '<img align="center" src="https://surniaulula.github.io/' .
-				$plugin_readme[ 'plugin_slug' ] . '/assets/screenshot-' . sprintf( '%02d', $num + 1 ) . '.png"/><br/>' . "\n";
+				$readme_info[ 'plugin_slug' ] . '/assets/screenshot-' . sprintf( '%02d', $num + 1 ) . '.png"/><br/>' . "\n";
 
 			echo $screenshot . '</p>' . "\n\n";
 		}
@@ -197,16 +197,16 @@ if ( ! empty( $sections[ 'screenshots' ] ) ) {
 if ( ! empty( $sections[ 'changelog' ] ) ) {
 
 	echo '<h2>Changelog</h2>' . "\n\n";
-	echo $plugin_readme[ 'sections' ][ 'changelog' ] . "\n";
+	echo $readme_info[ 'sections' ][ 'changelog' ] . "\n";
 }
 
 if ( ! empty( $sections[ 'notice' ] ) ) {
 
-	if ( ! empty( $plugin_readme[ 'upgrade_notice' ] ) ) {
+	if ( ! empty( $readme_info[ 'upgrade_notice' ] ) ) {
 
 		echo '<h2>Upgrade Notice</h2>' . "\n\n";
 
-		foreach ( $plugin_readme[ 'upgrade_notice' ] as $version => $notice ) {
+		foreach ( $readme_info[ 'upgrade_notice' ] as $version => $notice ) {
 
 			echo '<h4>' . $version . '</h4>' . "\n\n";
 			echo '<p>' . $notice . '</p>' . "\n\n";
