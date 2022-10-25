@@ -149,7 +149,7 @@ if ( ! empty( $sections[ 'description' ] ) ) {
 
 	echo '<h2>Description</h2>' . "\n\n";
 
-	$readme_info[ 'sections' ][ 'description' ] = preg_replace( 
+	$readme_info[ 'sections' ][ 'description' ] = preg_replace(
 		array( '/`([^`]*)`/' ),
 		array( '<code>$1</code>' ),
 		$readme_info[ 'sections' ][ 'description' ]
