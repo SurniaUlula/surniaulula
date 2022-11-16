@@ -5,8 +5,6 @@
  *
  * @package wordpress-i18n
  */
-error_reporting(E_ALL);
-
 require_once dirname( __FILE__ ) . '/makepot.php';
 
 class AddTextdomain {
