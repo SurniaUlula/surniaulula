@@ -1,7 +1,6 @@
 <?php
 /**
- * Console application, which adds metadata strings from
- * a WordPress extension to a POT file
+ * Console application, which adds metadata strings from a WordPress extension to a POT file
  *
  * @package wordpress-i18n
  * @subpackage tools

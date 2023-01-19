@@ -1,7 +1,6 @@
 #!/usr/bin/php
 <?php
-
-/**
+/*
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl.txt
  * Copyright 2012-2015 - Jean-Sebastien Morisset - http://surniaulula.com/

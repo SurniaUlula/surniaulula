@@ -1,7 +1,6 @@
 <?php
 /**
- * Console application, which extracts or replaces strings for
- * translation, which cannot be gettexted
+ * Console application, which extracts or replaces strings for translation, which cannot be gettexted
  *
  * @package wordpress-i18n
  * @subpackage tools

@@ -10,9 +10,8 @@ $pomo = ABSPATH . 'wp-includes/pomo/';
 require_once $pomo . 'entry.php';
 require_once $pomo . 'translations.php';
 
-/**
- * Responsible for extracting translatable strings from PHP source files
- * in the form of Translations instances
+/*
+ * Responsible for extracting translatable strings from PHP source files in the form of Translations instances
  */
 class StringExtractor {
 
@@ -167,7 +166,7 @@ class StringExtractor {
 		return $translations;
 	}
 
-	/**
+	/*
 	 * Finds all function calls in $code and returns an array with an associative array for each function:
 	 *	- name - name of the function
 	 *	- args - array for the function arguments. Each string literal is represented by itself, other arguments are represented by null.

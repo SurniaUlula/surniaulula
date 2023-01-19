@@ -1,7 +1,6 @@
 <?php
 /**
- * Console application, which adds textdomain argument
- * to all i18n function calls
+ * Console application, which adds textdomain argument to all i18n function calls
  *
  * @package wordpress-i18n
  */
@@ -12,7 +11,7 @@ class AddTextdomain {
 	var $modified_contents = '';
 	var $funcs;
 
-	/**
+	/*
 	 * PHP5 constructor.
 	 */
 	function __construct() {
@@ -22,7 +21,7 @@ class AddTextdomain {
 		$this->funcs = array_keys( $makepot->rules );
 	}
 
-	/**
+	/*
 	 * PHP4 constructor.
 	 */
 	public function AddTextdomain() {
