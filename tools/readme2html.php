@@ -6,6 +6,8 @@
  * Copyright 2012-2015 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
 
+$_SERVER['HTTP_HOST'] = 'surniaulula.com';	// Required to prevent Polylang error message.
+
 define( 'WP_DEBUG', true );
 define( 'WP_USE_THEMES', false );
 define( 'WP_PATH', '/var/www/wpadm/wordpress/' );
